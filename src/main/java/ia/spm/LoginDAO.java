@@ -32,7 +32,7 @@ public class LoginDAO {
         }
         return status;
     }
-
+    //to fetch user name and password for indentification
     public static UserBean identifier(String email) throws ClassNotFoundException{
 
         Class.forName("com.mysql.cj.jdbc.Driver");
