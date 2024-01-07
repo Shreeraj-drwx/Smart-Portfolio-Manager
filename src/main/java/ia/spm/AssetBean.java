@@ -10,6 +10,7 @@ public class AssetBean {
     int volume;
     double price;
     int userID;
+    //user id
     public int getId() {
         return id;
     }
