@@ -21,7 +21,6 @@ public class ProfileServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         Cookie[] cookies = request.getCookies(); // Retrieve all cookies from the request
         String email = null;
         if (cookies != null) {
@@ -34,7 +33,6 @@ public class ProfileServlet extends HttpServlet {
                 }
             }
         }
-
         UserBean user = null;
         try {
             user = LoginDAO.identifier(email);

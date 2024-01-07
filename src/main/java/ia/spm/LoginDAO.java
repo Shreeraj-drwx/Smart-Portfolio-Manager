@@ -6,21 +6,38 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.security.MessageDigest;
+
 
 public class LoginDAO {
 
+    public String hashPassword(String password) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hashedBytes = digest.digest(password.getBytes("UTF-8"));
+
+            // Convert byte array to a hexadecimal string
+            StringBuilder hex = new StringBuilder();
+            for (byte b : hashedBytes) {
+                hex.append(String.format("%02x", b));
+            }
+            return hex.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     public boolean validate(UserBean userBean) throws ClassNotFoundException {
         boolean status = false;
 
         Class.forName("com.mysql.jdbc.Driver");
 
-        try (Connection connection = DriverManager
-                .getConnection("jdbc:mysql://localhost:3306/demo?useSSL=false", "suppalapati", "epicrider");
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/demo?useSSL=false", "suppalapati", "epicrider");
 
              // Step 2:Create a statement using connection object
              PreparedStatement preparedStatement = connection.prepareStatement("select * from users where email = ? and password = ? ")) {
             preparedStatement.setString(1, userBean.getEmail());
-            preparedStatement.setString(2, userBean.getPassword());
+            preparedStatement.setString(2, hashPassword(userBean.getPassword()));
 
             System.out.println(preparedStatement);
             ResultSet rs = preparedStatement.executeQuery();
@@ -32,22 +49,13 @@ public class LoginDAO {
         }
         return status;
     }
-    //to fetch user name and password for indentification
+    //to fetch username and password for indentification
     public static UserBean identifier(String email) throws ClassNotFoundException{
 
-        Class.forName("com.mysql.cj.jdbc.Driver");
-
-        String jdbcUrl = "jdbc:mysql://localhost:3306/demo";
-        String username = "suppalapati";
-        String password = "epicrider";
         UserBean user = new UserBean();
         try {
-            // Open a connection
-            System.out.println("Connecting to the database...");
-            Connection connection = DriverManager.getConnection(jdbcUrl, username, password);
 
-            // Print a message if connected successfully
-            System.out.println("Successfully connected again!");
+            Connection connection = MysqlConnection.openConnection();
 
             String sql = "SELECT * FROM users WHERE email = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);

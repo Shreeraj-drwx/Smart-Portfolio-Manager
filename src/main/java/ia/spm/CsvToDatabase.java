@@ -12,12 +12,7 @@ public class CsvToDatabase {
     public static void update() throws ClassNotFoundException {
         String folderPath = "/home/suppalapati/Documents/Java/IA-Stock/src/main/CSVStore/";  // Replace with the path to your CSV folder
 
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        String jdbcUrl = "jdbc:mysql://localhost:3306/demo";
-        String username = "suppalapati";
-        String password = "epicrider";
-
-        try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password)) {
+        try (Connection connection = MysqlConnection.openConnection()) {
             File folder = new File(folderPath);
 
             if (folder.isDirectory()) {

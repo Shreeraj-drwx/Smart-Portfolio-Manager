@@ -55,7 +55,7 @@ def update_database(symbol, price):
         connection.close()
 
 def main():
-    clear_able()
+    clear_table()
 
     symbols = fetch_symbols_from_database()
 

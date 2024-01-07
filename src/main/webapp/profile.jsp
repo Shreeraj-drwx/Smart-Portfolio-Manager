@@ -1,4 +1,7 @@
 <%@ page import="ia.spm.UserBean" %>
+<%@ page import="ia.spm.UploadHistory" %>
+<%@ page import="java.util.List" %>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!DOCTYPE html>
@@ -24,14 +27,15 @@
   UserBean user = (UserBean) request.getAttribute("UserBean");
 %>
 <div class="header">
-  <h1>Profile</h1>
+  <h1><%=user.getFirstName() + "'s"%> Profile</h1>
 </div>
 <br>
 
-<p class="section">First Name: <%=user.getFirstName()%></p>
-<p class="section">Last Name: <%=user.getLastName()%></p>
-<p class="section">Email: <%=user.getEmail()%></p>
-
+<div class="section" >
+<p>First Name: <%=user.getFirstName()%></p>
+<p>Last Name: <%=user.getLastName()%></p>
+<p>Email: <%=user.getEmail()%></p>
+</div>
 
 <div class="button-container">
   <div class="top-right-buttons">
@@ -44,17 +48,45 @@
       <button type="submit" >Logout</button>
     </form>
   </div>
-  <div class="button-container">
+  <div class="button-container2">
+    <p> Enter your new assets here (CSV Files only)</p>
     <form method="post" action="fileuploadservlet" enctype="multipart/form-data">
       <input type="file" name="file" id="file" />
       <input type="submit" value="Upload" />
     </form>
-    <% String UploadStatus = (String) request.getAttribute("UploadStatus");
-      if (UploadStatus != null && UploadStatus.equals("Failed")) {   %>
-    <p> Upload Failed. Please retry!!</p>
-    <% } %>
   </div>
-
 </div>
+
+<%
+  List<UploadHistory> uploadList = UploadHistory.userUploadHistory(user.getId());
+%>
+<div class="section section1">
+
+  <h2>Your Upload History:</h2>
+  <table>
+    <thead>
+    <tr>
+      <th>Type</th>
+      <th>Company Name</th>
+    </tr>
+    </thead>
+    <tbody>
+    <%
+
+      if ( uploadList != null) {
+        for (UploadHistory entry : uploadList) {
+    %>
+    <tr>
+      <td><%= entry.getUploadDate() %></td>
+      <td><%= entry.getFileName() %></td>
+    </tr>
+    <%
+        }
+      }
+    %>
+    </tbody>
+  </table>
+</div>
+
 </body>
 </html>

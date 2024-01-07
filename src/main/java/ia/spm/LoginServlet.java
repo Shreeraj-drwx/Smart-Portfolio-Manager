@@ -20,9 +20,11 @@ public class LoginServlet extends HttpServlet {
 
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        String hashedPassword = new LoginDAO().hashPassword(password);
         UserBean UserBean = new UserBean();
         UserBean.setEmail(username);
-        UserBean.setPassword(password);
+        UserBean.setPassword(hashedPassword);
+
 
         try {
             if (loginDAO.validate(UserBean)) {

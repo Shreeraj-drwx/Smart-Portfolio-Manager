@@ -25,20 +25,9 @@ public class Portfolio {
     public void fetchAssets() throws ClassNotFoundException {
 
         List<AssetBean> assetList = new ArrayList<>();
-        Class.forName("com.mysql.cj.jdbc.Driver");
-
-        String jdbcUrl = "jdbc:mysql://localhost:3306/demo";
-        String username = "suppalapati";
-        String password = "epicrider";
 
         try {
-            // Open a connection
-            System.out.println("Connecting to the database...");
-            Connection connection = DriverManager.getConnection(jdbcUrl, username, password);
-
-            // Print a message if connected successfully
-            System.out.println("Successfully connected again!");
-
+            Connection connection = MysqlConnection.openConnection();
             String sql = "SELECT * FROM assets WHERE userID = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, String.valueOf(this.ownerId));

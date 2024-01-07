@@ -121,18 +121,19 @@
     </div>
 </div>
 <br>
+<div >
 
-<div class="button-container">
-    <div class="top-right-buttons">
-        <form  action="ProfileServlet" method="get">
-            <input type="image" src="images/user.png" alt="Profile" class="submit-image">
-        </form>
-        <br>
-        <br>
-        <form  action="LogoutServlet" method="post">
-            <button type="submit" >Logout</button>
-        </form>
-    </div>
+            <div class="top-right-buttons" >
+                <form action="ProfileServlet" method="get">
+                    <input type="image" src="images/user.png" alt="Profile" class="submit-image">
+                </form>
+                <form  action="LogoutServlet" method="post">
+                    <button type="submit" >Logout</button>
+                </form>
+            </div>
+            <br>
+            <br>
+
 </div>
 </body>
 </html>
