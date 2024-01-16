@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +50,13 @@ public class PortfolioServlet extends HttpServlet {
         request.setAttribute("portfolio", portfolio);
         RequestDispatcher dispatcher = request.getRequestDispatcher("portfolio.jsp");
         dispatcher.forward(request, response);
+        try {
+            PortfolioUpdater.updatePortfolio(user.getId());
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

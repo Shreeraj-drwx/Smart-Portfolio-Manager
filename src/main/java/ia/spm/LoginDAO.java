@@ -32,7 +32,7 @@ public class LoginDAO {
 
         Class.forName("com.mysql.jdbc.Driver");
 
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/demo?useSSL=false", "suppalapati", "epicrider");
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/StockManager?useSSL=false", "newuser", "password");
 
              // Step 2:Create a statement using connection object
              PreparedStatement preparedStatement = connection.prepareStatement("select * from users where email = ? and password = ? ")) {

@@ -6,9 +6,9 @@ public class MysqlConnection {
     public static Connection openConnection() throws ClassNotFoundException {
         Class.forName("com.mysql.cj.jdbc.Driver");
 
-        String jdbcUrl = "jdbc:mysql://localhost:3306/demo";
-        String username = "suppalapati";
-        String password = "epicrider";
+        String jdbcUrl = "jdbc:mysql://localhost:3306/StockManager";
+        String username = "newuser";
+        String password = "password";
         Connection connection = null;
         try {
             // Open a connection

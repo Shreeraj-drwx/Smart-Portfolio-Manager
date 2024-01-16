@@ -10,7 +10,7 @@ import java.sql.PreparedStatement;
 public class CsvToDatabase {
 
     public static void update() throws ClassNotFoundException {
-        String folderPath = "/home/suppalapati/Documents/Java/IA-Stock/src/main/CSVStore/";  // Replace with the path to your CSV folder
+        String folderPath = "/Users/sraj/IdeaProjects/Smart-Portfolio-Manager/src/main/CSVStore/222";  // Replace with the path to your CSV folder
 
         try (Connection connection = MysqlConnection.openConnection()) {
             File folder = new File(folderPath);
