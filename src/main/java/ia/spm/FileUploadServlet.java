@@ -1,6 +1,8 @@
 package ia.spm;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -19,6 +21,15 @@ import javax.servlet.annotation.*;
 public class FileUploadServlet extends HttpServlet {
 
     private static final String CSV_CONTENT_TYPE = "text/csv";
+    public static String folderPath = System.getProperty("user.home") + File.separator + "uploads";
+
+    static {
+        try {
+            Files.createDirectories(Paths.get(folderPath));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -29,7 +40,7 @@ public class FileUploadServlet extends HttpServlet {
         // Check if the file has a CSV extension
         if (isCSVFile(fileName)) {
             // Specify the path where you want to save the file
-            String savePath = "/home/suppalapati/Documents/Java/IA-Stock/src/main/CSVStore/";
+            String savePath = "/Users/sraj/IdeaProjects/Smart-Portfolio-Manager/src/main/CSVStore/";
             filePart.write(savePath + fileName);
 
             Cookie[] cookies = request.getCookies(); // Retrieve all cookies from the request

@@ -3,7 +3,13 @@
 <%@ page import="ia.spm.Prices" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="java.sql.Connection" %>
+<%@ page import="ia.spm.MysqlConnection" %>
+<%@ page import="java.sql.PreparedStatement" %>
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="java.sql.SQLException" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -119,7 +125,12 @@
             }
         %>
     </div>
+
 </div>
+<div class="header">
+    <h2>Your Portfolio View</h2>
+</div>
+<canvas id="portfolioChart" style="width: 80%; height: 300px; background-color: white;"></canvas>
 <br>
 <div >
 
@@ -135,5 +146,58 @@
             <br>
 
 </div>
+<%
+    List<Double> portfolioValues = new ArrayList<>();
+    List<String> dates = new ArrayList<>();
+    try {
+        // Use your database connection and execute a query
+        Connection connection = MysqlConnection.openConnection(); // Obtain your database connection
+        String query = "SELECT date, value FROM portfolio_values WHERE userID = ?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, String.valueOf(portfolio.getOwnerId()));
+
+        ResultSet resultSet = statement.executeQuery();
+        // Process the result set
+        while (resultSet.next()) {
+            dates.add(resultSet.getString("date"));
+            portfolioValues.add(resultSet.getDouble("value"));
+        }
+        connection.close();
+    } catch (SQLException e) {
+        e.printStackTrace(); // Handle the exception appropriately
+    }
+
+    String portfolioValuesArray = portfolioValues.toString().replace("[", "").replace("]", "");
+    String datesArray = dates.toString().replace("[", "").replace("]", "");
+%>
+<script>
+    var ctx = document.getElementById('portfolioChart').getContext('2d');
+    var portfolioData = {
+        labels: [ <%= datesArray %> ],
+        datasets: [{
+            label: 'Portfolio Value',
+            data: [ <%= portfolioValuesArray %> ],
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1,
+            fill: false
+        }]
+    };
+
+    var portfolioChart = new Chart(ctx, {
+        type: 'line',
+        data: portfolioData,
+        options: {
+            scales: {
+                x: {
+                    type: 'linear',
+                    position: 'bottom'
+                },
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
 </body>
 </html>

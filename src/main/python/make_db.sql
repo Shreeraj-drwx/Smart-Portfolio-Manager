@@ -29,7 +29,13 @@ CREATE TABLE IF NOT EXISTS`users` (
   PRIMARY KEY (`userID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-
+CREATE TABLE IF NOT EXISTS `upload_history` (
+     `date` date DEFAULT NULL,
+      `filename` varchar(50) DEFAULT NULL,
+    `userID` int NOT NULL,
+    KEY `fk_user` (`userID`),
+    CONSTRAINT `fk_user` FOREIGN KEY (`userID`) REFERENCES `users` (`userID`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
 

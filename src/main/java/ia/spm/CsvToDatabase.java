@@ -3,17 +3,18 @@ package ia.spm;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
 public class CsvToDatabase {
-
     public static void update() throws ClassNotFoundException {
-        String folderPath = "/home/suppalapati/Documents/Java/IA-Stock/src/main/CSVStore/";  // Replace with the path to your CSV folder
 
         try (Connection connection = MysqlConnection.openConnection()) {
-            File folder = new File(folderPath);
+            File folder = new File(FileUploadServlet.folderPath);
 
             if (folder.isDirectory()) {
                 File[] files = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".csv"));

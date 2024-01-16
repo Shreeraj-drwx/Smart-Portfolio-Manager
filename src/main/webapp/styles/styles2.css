@@ -39,7 +39,7 @@ body {
 }
 
 .section {
-    width: 30%;
+    width: 50%;
     padding: 10px;
     background-color: #fff;
     border-radius: 10px;
@@ -53,9 +53,15 @@ body {
 }
 
 .section2{
-    width: 30%;
+    width: 40%;
     text-align: left;
 }
+ .section3 {
+     margin-top: 20px; /* Add some top margin to create space */
+     position: relative; /* Enable positioning */
+ }
+
+
 .login-form {
     width: 80%;
     max-width: 300px;
